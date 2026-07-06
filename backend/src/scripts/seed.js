@@ -27,6 +27,12 @@ const stores = [
 async function seed() {
   const hash = await bcrypt.hash(PASSWORD, 10);
 
+  await query('SET FOREIGN_KEY_CHECKS = 0');
+  await query('TRUNCATE TABLE ratings');
+  await query('TRUNCATE TABLE stores');
+  await query('TRUNCATE TABLE users');
+  await query('SET FOREIGN_KEY_CHECKS = 1');
+
   // Users
   const userIds = {};
   for (const u of users) {
