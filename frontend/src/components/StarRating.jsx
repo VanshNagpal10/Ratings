@@ -1,4 +1,3 @@
-// Interactive 1-5 star widget. When `onRate` is provided the stars are clickable.
 export default function StarRating({ value = 0, onRate }) {
   const rounded = Math.round(value);
   return (

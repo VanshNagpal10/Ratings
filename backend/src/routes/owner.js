@@ -7,8 +7,6 @@ const router = Router();
 // Every route here requires an authenticated store owner.
 router.use(authenticate, authorize('owner'));
 
-// GET /api/owner/dashboard  — Owner's stores, each with its average rating and
-// the list of users who rated it.
 router.get('/dashboard', async (req, res) => {
   const stores = await query(
     `SELECT s.id, s.name, s.address, s.email,
@@ -22,7 +20,7 @@ router.get('/dashboard', async (req, res) => {
     [req.user.id]
   );
 
-  // Attach the raters for each store.
+
   for (const store of stores) {
     store.raters = await query(
       `SELECT u.id, u.name, u.email, r.rating, r.updated_at AS ratedAt
@@ -34,7 +32,6 @@ router.get('/dashboard', async (req, res) => {
     );
   }
 
-  // Overall average across all of the owner's stores.
   const [overall] = await query(
     `SELECT ROUND(AVG(r.rating), 2) AS averageRating, COUNT(r.id) AS ratingCount
        FROM ratings r

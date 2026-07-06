@@ -97,6 +97,19 @@ th.sortable:hover { color: var(--primary); }
 .stat .value { font-size: 2rem; font-weight: 700; color: var(--primary-dark); }
 .stat .label { color: var(--muted); font-size: 0.85rem; }
 
+/* Clickable stat cards on the admin dashboard. */
+.stat-btn {
+  background: #f9fafb;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.8rem 0.5rem;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+.stat-btn:hover { background: #eef2ff; border-color: var(--primary); }
+
+.button-row { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+
 .filters { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-bottom: 1rem; }
 .filters input, .filters select { min-width: 160px; }
 
@@ -112,3 +125,38 @@ th.sortable:hover { color: var(--primary); }
 .star { cursor: pointer; font-size: 1.15rem; line-height: 1; color: #cbd5e1; background: none; padding: 0; }
 .star.filled { color: #f59e0b; }
 .tag { font-size: 0.75rem; padding: 0.1rem 0.45rem; border-radius: 4px; background: #f3f4f6; }
+
+/* Rating cell: stars + submit button side by side. */
+.rate-cell { display: flex; align-items: center; gap: 0.6rem; }
+
+/* Success toast popup (bottom-right). */
+.toast {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--success);
+  color: #fff;
+  padding: 0.7rem 1rem;
+  border-radius: 8px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
+  font-size: 0.9rem;
+  animation: toast-in 0.25s ease-out;
+}
+.toast-check {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.2rem;
+  height: 1.2rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.25);
+  font-size: 0.8rem;
+}
+@keyframes toast-in {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}

@@ -3,7 +3,6 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-// A shared connection pool used across the app.
 export const pool = mysql.createPool({
   host: process.env.DB_HOST || 'localhost',
   port: Number(process.env.DB_PORT) || 3306,
@@ -16,7 +15,7 @@ export const pool = mysql.createPool({
   namedPlaceholders: true,
 });
 
-// Small helper so callers can `const rows = await query(sql, params)`.
+
 export async function query(sql, params) {
   const [rows] = await pool.execute(sql, params);
   return rows;

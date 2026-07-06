@@ -12,7 +12,6 @@ import {
 
 const router = Router();
 
-// POST /api/auth/register  — Normal user self sign-up.
 router.post('/register', async (req, res) => {
   const { name, email, address, password } = req.body || {};
 
@@ -24,7 +23,7 @@ router.post('/register', async (req, res) => {
   ]);
   if (error) return res.status(400).json({ error });
 
-  try {
+  try{
     const existing = await query('SELECT id FROM users WHERE email = ?', [email]);
     if (existing.length) return res.status(409).json({ error: 'Email is already registered.' });
 
@@ -35,13 +34,14 @@ router.post('/register', async (req, res) => {
     );
     const user = { id: result.insertId, name: name.trim(), email, role: 'user' };
     return res.status(201).json({ token: signToken(user), user });
-  } catch (err) {
+  } 
+  catch (err) {
     console.error(err);
     return res.status(500).json({ error: 'Registration failed.' });
   }
 });
 
-// POST /api/auth/login  — Single login for all roles.
+
 router.post('/login', async (req, res) => {
   const { email, password } = req.body || {};
   if (!email || !password)
@@ -57,13 +57,13 @@ router.post('/login', async (req, res) => {
 
     const user = { id: found.id, name: found.name, email: found.email, role: found.role };
     return res.json({ token: signToken(user), user });
-  } catch (err) {
+  } 
+  catch (err) {
     console.error(err);
     return res.status(500).json({ error: 'Login failed.' });
   }
 });
 
-// GET /api/auth/me  — Current user profile.
 router.get('/me', authenticate, async (req, res) => {
   const rows = await query(
     'SELECT id, name, email, address, role FROM users WHERE id = ?',
@@ -73,7 +73,44 @@ router.get('/me', authenticate, async (req, res) => {
   return res.json({ user: rows[0] });
 });
 
-// PUT /api/auth/password  — Any logged-in user updates their password.
+
+router.put('/profile', authenticate, async (req, res) => {
+  const { name, email, address } = req.body || {};
+
+  const error = firstError([
+    validateName(name),
+    validateEmail(email),
+    validateAddress(address),
+  ]);
+  if (error) return res.status(400).json({ error });
+
+  try {
+    // Ensure the new email is not taken by a different user.
+    const clash = await query('SELECT id FROM users WHERE email = ? AND id <> ?', [
+      email,
+      req.user.id,
+    ]);
+    if (clash.length) return res.status(409).json({ error: 'Email is already in use.' });
+
+    await query('UPDATE users SET name = ?, email = ?, address = ? WHERE id = ?', [
+      name.trim(),
+      email,
+      address.trim(),
+      req.user.id,
+    ]);
+
+    const rows = await query(
+      'SELECT id, name, email, address, role FROM users WHERE id = ?',
+      [req.user.id]
+    );
+    return res.json({ message: 'Profile updated successfully.', user: rows[0] });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ error: 'Could not update profile.' });
+  }
+});
+
+
 router.put('/password', authenticate, async (req, res) => {
   const { currentPassword, newPassword } = req.body || {};
   if (!currentPassword) return res.status(400).json({ error: 'Current password is required.' });

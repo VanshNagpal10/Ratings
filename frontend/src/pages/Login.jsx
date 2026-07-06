@@ -10,7 +10,6 @@ export default function Login() {
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
 
-  // Already logged in? Bounce to home.
   if (user) navigate('/', { replace: true });
 
   function update(e) {

@@ -6,13 +6,13 @@ import ProtectedRoute from './components/ProtectedRoute.jsx';
 import Login from './pages/Login.jsx';
 import Register from './pages/Register.jsx';
 import UpdatePassword from './pages/UpdatePassword.jsx';
+import Profile from './pages/Profile.jsx';
 import AdminDashboard from './pages/AdminDashboard.jsx';
 import AdminUsers from './pages/AdminUsers.jsx';
 import AdminStores from './pages/AdminStores.jsx';
 import UserStores from './pages/UserStores.jsx';
 import OwnerDashboard from './pages/OwnerDashboard.jsx';
 
-// Sends a logged-in user to their role's home page.
 function Home() {
   const { user, loading } = useAuth();
   if (loading) return <div className="container">Loading…</div>;
@@ -37,6 +37,15 @@ export default function App() {
           element={
             <ProtectedRoute>
               <UpdatePassword />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute>
+              <Profile />
             </ProtectedRoute>
           }
         />

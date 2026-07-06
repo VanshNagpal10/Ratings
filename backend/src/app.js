@@ -22,11 +22,8 @@ export function createApp() {
   app.use('/api/stores', storeRoutes);
   app.use('/api/owner', ownerRoutes);
 
-  // 404 for unknown API routes.
   app.use((req, res) => res.status(404).json({ error: 'Not found.' }));
 
-  // Central error handler.
-  // eslint-disable-next-line no-unused-vars
   app.use((err, _req, res, _next) => {
     console.error(err);
     res.status(500).json({ error: 'Internal server error.' });

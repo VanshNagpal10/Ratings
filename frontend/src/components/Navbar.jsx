@@ -15,7 +15,7 @@ export default function Navbar() {
 
   return (
     <nav className="navbar">
-      <div className="brand">Store Ratings</div>
+      <div className="brand" >Store Ratings</div>
       <div className="nav-links">
         {user.role === 'admin' && (
           <>
@@ -28,7 +28,7 @@ export default function Navbar() {
         {user.role === 'owner' && <Link to="/owner">Dashboard</Link>}
         <Link to="/password">Change Password</Link>
         <span className="role-badge">{user.role}</span>
-        <span className="muted">{user.name}</span>
+        <Link to="/profile" title="Edit your details">{user.name}</Link>
         <button className="secondary" onClick={handleLogout}>Logout</button>
       </div>
     </nav>

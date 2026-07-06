@@ -60,7 +60,8 @@ router.post('/:id/rating', authenticate, authorize('user'), async (req, res) => 
       [req.user.id, storeId, Number(rating)]
     );
     res.json({ message: 'Rating saved.', rating: Number(rating) });
-  } catch (err) {
+  } 
+  catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Could not save rating.' });
   }

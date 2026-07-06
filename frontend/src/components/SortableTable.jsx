@@ -1,7 +1,5 @@
 import { useState, useMemo } from 'react';
 
-// Client-side sorting shared by every table so all listings support
-// ascending/descending sorting on key fields.
 export function useSort(items, initialKey = null) {
   const [sortKey, setSortKey] = useState(initialKey);
   const [sortDir, setSortDir] = useState('asc');

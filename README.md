@@ -55,7 +55,7 @@ All demo passwords are `Password@123`.
 | Role                 | Email               |
 | -------------------- | ------------------- |
 | System Administrator | admin@example.com   |
-| Normal User          | john@example.com    |
+| Normal User          | vanshuser@example.com   |
 | Store Owner          | owner1@example.com  |
 
 ---
